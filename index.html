@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя ❤️</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #1a0b2e, #2d1b4e, #4a2c6d);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Падающие сердечки на фоне */
+        .heart-bg {
+            position: fixed;
+            top: -10vh;
+            color: rgba(255, 105, 180, 0.4);
+            font-size: 20px;
+            animation: fall linear infinite;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            max-width: 500px;
+            width: 90%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 25px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #ff9a9e, #fad0c4, #ff9a9e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-weight: 300;
+            font-size: 15px;
+            opacity: 0.8;
+            margin-bottom: 30px;
+        }
+
+        /* Счетчик времени */
+        .counter {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .counter-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            margin-bottom: 10px;
+        }
+
+        .counter-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffb3d9;
+        }
+
+        /* Блок с причинами */
+        .reasons {
+            text-align: left;
+            margin-bottom: 25px;
+        }
+
+        .reasons h3 {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #ffb3d9;
+        }
+
+        .reasons ul {
+            list-style: none;
+        }
+
+        .reasons li {
+            font-weight: 300;
+            font-size: 14px;
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .reasons li:last-child {
+            border-bottom: none;
+        }
+
+        .reasons li::before {
+            content: "❤ ";
+            color: #ff69b4;
+        }
+
+        /* Кнопка обнять */
+        .hug-btn {
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: 500;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            box-shadow: 0 5px 20px rgba(255, 107, 157, 0.4);
+            margin-bottom: 20px;
+        }
+
+        .hug-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 157, 0.6);
+        }
+
+        .hug-btn:active {
+            transform: scale(0.95);
+        }
+
+        #hugMessage {
+            font-size: 14px;
+            font-weight: 300;
+            min-height: 40px;
+            color: #ffd1e8;
+            transition: opacity 0.3s;
+        }
+
+        /* Летящие сердечки при клике */
+        .flying-heart {
+            position: fixed;
+            font-size: 30px;
+            pointer-events: none;
+            z-index: 999;
+            animation: flyUp 1.5s ease-out forwards;
+        }
+
+        @keyframes flyUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-200px) scale(2); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Кнопка "Обнять" отправляет сердечки -->
+    <div class="container">
+        <h1>Привет, моя любимая девочка💜</h1>
+        <p class="subtitle">Ты просила что-то милое. Это — для тебя.</p>
+
+        <!-- Счетчик -->
+        <div class="counter">
+            <div class="counter-title">Мы вместе уже</div>
+            <div class="counter-value" id="timer">Загрузка...</div>
+        </div>
+
+        <!-- Причины -->
+        <div class="reasons">
+            <h3>Почему ты — мое чудо:</h3>
+            <ul>
+                <li>Твой смех — лучший звук на свете</li>
+                <li>Ты делаешь даже скучные дни яркими</li>
+                <li>С тобой я чувствую себя дома, даже за сотни км</li>
+                <li>Ты самая красивая, когда утром сонная</li>
+                <li>Твоя улыбка самая яркая и красивая</li>
+                <li>Ты первое о чём думаю перед сном и с утра когда просыпаюсь</li>
+                <li>Просто потому, что ты — это ты</li>
+            </ul>
+        </div>
+
+        <!-- Интерактив -->
+        <button class="hug-btn" id="hugBtn">Обнять 🤗</button>
+        <p id="hugMessage">Нажми, чтобы я крепко тебя обнял</p>
+    </div>
+
+    <script>
+        // === НАСТРОЙКИ ===
+        // ВАЖНО: измени эту дату на дату вашего знакомства (Год, Месяц-1, День)
+        // Например: 14 февраля 2023 года = new Date(2023, 1, 14)
+        const startDate = new Date(2026, 5, 13); // 15 июня 2023 (месяцы считаются с 0!)
+        // ================
+
+        // Счетчик времени
+        function updateTimer() {
+            const now = new Date();
+            const diff = now - startDate;
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((diff / (1000 * 60)) % 60);
+            const seconds = Math.floor((diff / 1000) % 60);
+
+            document.getElementById('timer').textContent = 
+                `${days} д. ${hours} ч. ${minutes} мин. ${seconds} сек.`;
+        }
+
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // Кнопка "Обнять"
+        const hugBtn = document.getElementById('hugBtn');
+        const hugMessage = document.getElementById('hugMessage');
+        
+        const messages = [
+            "Обнял! И еще раз обнял 💜",
+            "Крепко-крепко! Не отпущу 🥰",
+            "Чувствуешь? Это мое тепло тебе",
+            "Еще один виртуальный обнимашка!",
+            "Я всегда рядом, помни это ❤️"
+        ];
+        
+        let msgIndex = 0;
+
+        hugBtn.addEventListener('click', (e) => {
+            // Меняем текст
+            msgIndex = (msgIndex + 1) % messages.length;
+            hugMessage.textContent = messages[msgIndex];
+            hugMessage.style.opacity = 0;
+            setTimeout(() => hugMessage.style.opacity = 1, 100);
+
+            // Создаем летящие сердечки
+            for (let i = 0; i < 8; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.classList.add('flying-heart');
+                    heart.textContent = ['❤️', '💜', '💖', '🥰'][Math.floor(Math.random() * 4)];
+                    heart.style.left = (e.clientX + (Math.random() * 100 - 50)) + 'px';
+                    heart.style.top = e.clientY + 'px';
+                    document.body.appendChild(heart);
+                    setTimeout(() => heart.remove(), 1500);
+                }, i * 100);
+            }
+        });
+
+        // Падающие сердечки на фоне
+        function createBgHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.textContent = ['❤️', '💜', '💖'][Math.floor(Math.random() * 3)];
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+            heart.style.fontSize = (15 + Math.random() * 20) + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 10000);
+        }
+
+        setInterval(createBgHeart, 800);
+    </script>
+</body>
+</html>
